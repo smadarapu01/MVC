@@ -1,0 +1,60 @@
+================== MVC ======================
+
+The Improtant point to understand is that the URL is mapped to a controller action method. Where as in web forms application, the URL is mapped to a physical file. For example, in a web application, if we have to display the same message.
+	1. We add a webform and in the Page_load() event include Response.Write("Hello from ASP.NET Web Forms Application");
+	2. We then access WebForm1.aspx as shown below
+	http://localhost/WebFormsApplication/WebForm1.aspx
+	3. The Page load event gets executed and the message string is displayed.
+
+================== CONTROLLER ===============
+
+1. MVC URL's are mapped to Controller Action Methods using RegisterRoutes() of
+2. ASP.NET MVC will automatically pass any query string or form post parameters named to function action method when it is invoked
+	RouteConfig.cs
+		- RegisterRoutes
+			- routes.MapRoute(
+				name: "Default",
+				url: "{controller}/{action}/{id}",
+				defaults: new { contoller = "Home", action= "Index", id= UrlParameter.Optional }
+			);
+3. IngoreRoute
+		- routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+		- localhost/APP/Trace.axd
+	
+================== VIEWS ===============
+
+QualityDetailReportData
+
+//public AllSwitches: KnockoutObservable<boolean> = ko.observable(false);
+
+if (this.AllSwitches()) {
+					switchCache = this.EntityCache() ? this.EntityCache().switches : null;
+				}
+				else {
+					switchCache = this.EntityCache() ? this.EntityCache().allswitches : null;
+				}
+
+-------------------------------------------------------------
+ViewData and ViewBag are used to pass data from a controller to a view.
+
+ViewData is a dictionary of objects that are stored and retrieved using as Keys. 
+it doesn't provide compile time error checking.
+Syntax of ViewData is very similar to ViewState, SessionState and ApplicationState
+
+To store:
+	ViewData["Key"] = "Value";
+To retrieve:
+	string strData = ViewData["Key"].ToString();
+
+ViewBag:
+	Introduced in C#4.0, It allows an object to have properties dynamically added to it.
+
+
+To store:
+	ViewBag.YourProp = "Value";
+To retrieve:
+	string strData = ViewBag.YourProp;
+
+
+
+
