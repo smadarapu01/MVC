@@ -48,13 +48,15 @@ To retrieve:
 
 ViewBag:
 	Introduced in C#4.0, It allows an object to have properties dynamically added to it.
-
+it doesn't provide compile time error checking as ViewData. Interanlly ViewBag properties are stored as name/value pairs in the ViewData dictionary
 
 To store:
 	ViewBag.YourProp = "Value";
 To retrieve:
 	string strData = ViewBag.YourProp;
 
+--- NOTE: 
+	To pass data from controller to a view, It's always a good practice to use strongly typed view models instead of using ViewBag & ViewData. Strongly typed view models  provide compile time error checking.
 
-
-
+----------------- MODEL ---------------------------
+The controller responds to URL request, gets data from a model and hands it over to the view, The view then renders the data. Model can be entities or bussiness objects
