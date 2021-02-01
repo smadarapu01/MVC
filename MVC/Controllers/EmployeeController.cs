@@ -10,13 +10,13 @@ namespace MVC.Controllers
     public class EmployeeController : Controller
     {
         // GET: Employee
-        public ActionResult Index(int Id)
+        public ActionResult Index()
         {
             List<Models.Employee> emps = new List<Models.Employee>();
 
             EmployeeDBEntities employeeDBEntities = new EmployeeDBEntities();
 
-            List<DataAccess.Employee> employees = employeeDBEntities.Employees.Where(x => x.DeptId == Id).ToList();
+            List<DataAccess.Employee> employees = employeeDBEntities.Employees.ToList();
 
             foreach (DataAccess.Employee item in employees)
             {
@@ -31,13 +31,19 @@ namespace MVC.Controllers
         // GET: Employee/Details/5
         public ActionResult Details(int Id)
         {
+            Models.Employee emp = GetEmployeeById(Id);
+
+            return View(emp);
+        }
+
+        private static Models.Employee GetEmployeeById(int Id)
+        {
             EmployeeDBEntities employeeDBEntities = new EmployeeDBEntities();
 
             var employee = employeeDBEntities.Employees.FirstOrDefault(x => x.ID == Id);
 
             Models.Employee emp = TransformEmpToModel(employee);
-
-            return View(emp);
+            return emp;
         }
 
         private static Models.Employee TransformEmpToModel(DataAccess.Employee employee)
@@ -48,22 +54,47 @@ namespace MVC.Controllers
             emp.FirstName = employee.FirstName;
             emp.Gender = employee.Gender;
             emp.Salary = int.Parse(employee.Salary.ToString());
+            emp.DeptId = int.Parse(employee.DeptId.ToString());
             return emp;
         }
 
-        // GET: Employee/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
+
         // POST: Employee/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ActionName("Create")]
+        public ActionResult Add()
         {
             try
             {
+                DataAccess.Employee employee = new DataAccess.Employee();
+
+                TryUpdateModel(employee);
+
+                EmployeeDBEntities employeeDBEntities = new EmployeeDBEntities();
+                DataAccess.Employee emp = new DataAccess.Employee();
+
+
+                //emp.ID = 1003;
+                //emp.FirstName = collection["FirstName"];
+                //emp.Gender = collection["Gender"];
+                //emp.Salary = Convert.ToInt32(collection["Salary"]);
+                //emp.DeptId = Convert.ToInt32(collection["DeptId"]);
+
+               
+
                 // TODO: Add insert logic here
+
+                if (ModelState.IsValid)
+                {
+                    employeeDBEntities.Employees.Add(emp);
+                    employeeDBEntities.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
@@ -76,15 +107,31 @@ namespace MVC.Controllers
         // GET: Employee/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Models.Employee emp = GetEmployeeById(id);
+
+            return View(emp);
         }
 
         // POST: Employee/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Employee employee)
         {
             try
             {
+                EmployeeDBEntities employeeDBEntities = new EmployeeDBEntities();
+
+                DataAccess.Employee dEmp = new DataAccess.Employee();
+
+                TryUpdateModel(employee);
+
+             
+                if (ModelState.IsValid)
+                {
+                    employeeDBEntities.Employees.Attach(employee);
+                    employeeDBEntities.Entry(employee).State = System.Data.Entity.EntityState.Modified;
+                    employeeDBEntities.SaveChanges();
+                }
+
                 // TODO: Add update logic here
 
                 return RedirectToAction("Index");
