@@ -9,4 +9,21 @@
 @Html.TextBoxFor(m => m.companyName)
 
 @Html.DropDownListFor(m => m.Departments, new SelectList(Model.Departments, "DeptId", "DeptName"), "Select Option")
+<br />
+<br />
+
+@using (Html.BeginForm())
+{
+
+    foreach (var dept in Model.Departments)
+    {
+        @Html.RadioButtonFor(m => m.selectedOption, dept.DeptId) @dept.DeptName
+    }
+    <br />
+    <br />
+
+    <input type="submit" value="subit"/>
+
+}
+
 

@@ -9,10 +9,12 @@ namespace MVC.Models
     public class Company
     {
 		private string _companyName;
-	
-		public Company(string companyName)
+
+		public bool selectedOption { get; set; }
+
+		public Company(string cName)
 		{
-			_companyName = companyName;
+			_companyName = cName;
 		}
 
 		public List<Department> Departments 

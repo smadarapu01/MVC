@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="City.cs">
+      <DependentUpon>EmployeeDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Employee.cs">
       <DependentUpon>EmployeeDataModel.tt</DependentUpon>
     </Compile>

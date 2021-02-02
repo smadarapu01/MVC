@@ -27,5 +27,6 @@ namespace DataAccess
     
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<tblDepartment> tblDepartments { get; set; }
+        public virtual DbSet<City> Cities { get; set; }
     }
 }
