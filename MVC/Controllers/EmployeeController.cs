@@ -16,7 +16,7 @@ namespace MVC.Controllers
 
             EmployeeDBEntities employeeDBEntities = new EmployeeDBEntities();
 
-            List<DataAccess.Employee> employees = employeeDBEntities.Employees.ToList();
+            List<DataAccess.Employee> employees = employeeDBEntities.Employees.Include("tblDepartment").ToList();
 
             foreach (DataAccess.Employee item in employees)
             {
@@ -55,8 +55,20 @@ namespace MVC.Controllers
             emp.Gender = employee.Gender;
             emp.Salary = int.Parse(employee.Salary.ToString());
             emp.DeptId = int.Parse(employee.DeptId.ToString());
+            emp.Department = TransformDeptToModel(employee.tblDepartment);
             return emp;
         }
+
+        private static Models.Department TransformDeptToModel(DataAccess.tblDepartment dDept)
+        {
+            Models.Department dept = new Models.Department();
+
+            dept.DeptId = dDept.Id;
+            dept.DeptName = dDept.Name;
+
+            return dept;
+        }
+
 
         [HttpGet]
         public ActionResult Create()
